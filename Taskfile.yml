@@ -1,0 +1,62 @@
+version: '3'
+
+tasks:
+  # Task to build the application
+  build:
+    desc: Build the Go application
+    cmds:
+      - go build -o bin/app ./cmd/api
+
+  # Task to run the application
+  run:
+    desc: Run the Go application
+    cmds:
+      - go run ./cmd/api
+
+  # Task to test the application
+  test:
+    desc: Run unit tests
+    cmds:
+      - go test ./...
+
+  # Task to run migrations
+  migrate:
+    desc: Apply database migrations
+    cmds:
+      - ./scripts/migrate.sh
+
+  # Task to build and run Docker container
+  docker:
+    desc: Build and run Docker container
+    cmds:
+      - docker-compose up --build
+
+  # Task to format Go code
+  fmt:
+    desc: Format Go code
+    cmds:
+      - go fmt ./...
+
+  # Task to lint Go code
+  lint:
+    desc: Lint Go code
+    cmds:
+      - golangci-lint run
+
+  # Task to clean the build artifacts
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf bin
+
+  # Task to generate OpenAPI documentation
+  generate-docs:
+    desc: Generate OpenAPI documentation
+    cmds:
+      - redocly bundle ./api/pkg/api/openapi-spec/openapi.yaml -o ./api/pkg/api/openapi-spec/openapi-spec.yaml
+
+  # Task to generate Go code from OpenAPI spec
+  generate-code:
+    desc: Generate Go code from OpenAPI specification
+    cmds:
+      - go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen --config=./api/pkg/api/openapi-spec/oapi-codegen.yaml ./api/pkg/api/openapi-spec/openapi-spec.yaml
