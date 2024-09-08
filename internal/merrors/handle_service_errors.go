@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/souvik03-136/Go-Store/internal/utils"
+	"github.com/souvik03-136/GoPay/internal/utils"
 )
 
 func HandleServiceCodes(ctx *gin.Context, baseRes utils.BaseResponse) {
